@@ -1,17 +1,21 @@
 ﻿using System;
 using System.Timers;
+using System.Net;
 using System.Net.Sockets;
+using System.Text;
 
 namespace MagicalPin
 {
     class Program
     {
-        static Timer t = new Timer();
+        static Timer t;
         static Socket s;
+        static IPEndPoint ipp;
 
         static void Main(string[] args)
         {
-            t.Interval = 1000;
+            t = new Timer(1000);
+            t.AutoReset = true;
             t.Elapsed += T_Elapsed;
 
             WTitle("魔针 MagicalPin 客户端 Beta 0.1");
@@ -29,16 +33,18 @@ namespace MagicalPin
                     break;
                 case "2":
                     return;
-                    break;
                 default:
                     return;
-                    break;
             }
         }
 
         private static void T_Elapsed(object sender, ElapsedEventArgs e)
         {
-            
+
+            Console.Clear();
+            WTitle("正在传递 Sending");
+
+            s.SendTo(Encoding.UTF8.GetBytes(DateTime.Now.ToString()), ipp);
         }
 
         static void WL(string str = "", ConsoleColor fColor = ConsoleColor.White, ConsoleColor bColor = ConsoleColor.Black)
@@ -55,7 +61,13 @@ namespace MagicalPin
 
         static void Connect(string ip, string port)
         {
-            
+            ipp = new IPEndPoint(IPAddress.Parse(ip), int.Parse(port));//远端地址
+
+            s = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);//本地套接字
+            s.Bind(new IPEndPoint(IPAddress.Parse("127.0.0.1"), 9905));
+
+            t.Start();
+            Pinning();
         }
 
         static void ReadyToConnect()
@@ -81,12 +93,18 @@ namespace MagicalPin
             switch (Console.ReadLine())
             {
                 case "y":
+                    Connect(ip, port);
                     break;
                 case "n":
                     break;
                 default:
                     break;
             }
+        }
+
+        static void Pinning()
+        {
+            while (true) ;
         }
     }
 }
