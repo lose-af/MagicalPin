@@ -1,7 +1,7 @@
 # MagicalPin
 魔针——服务器探针软件
 
-**注：此项目是乔一 @Qiaoyiiii6 在两个小时内敲定的，俗称赶鸭子上架，线粒体 @MitochondriaCN 连夜敲代码写成。
+**注：此项目是乔一 @Qiaoyiiii6 在两个小时内敲定的，俗称赶鸭子上架，线粒体 @MitochondriaCN 连夜敲代码写成。**
 
 
 ## 介绍
