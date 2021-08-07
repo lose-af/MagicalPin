@@ -44,6 +44,10 @@ namespace MagicalPin
 
             Console.Clear();
             WTitle("正在传递 Sending");
+            WL();
+            WL();
+            WL("主服务器地址：" + ipp.Address);
+            WL("主服务器端口：" + ipp.Port);
 
             s.SendTo(Encoding.UTF8.GetBytes(DateTime.Now.ToString()), ipp);
         }
