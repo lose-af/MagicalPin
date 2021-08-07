@@ -14,11 +14,12 @@ namespace MagicalPin
 
         static void Main(string[] args)
         {
-            t = new Timer(1000);
+            t = new Timer(2000);
             t.AutoReset = true;
             t.Elapsed += T_Elapsed;
 
             WTitle("魔针 MagicalPin 客户端 Beta 0.1");
+            WL("Copyright 2021 洛书南服务器团队 Losenone Server Team，保留一切权利。");
             WL();
             WL();
             WL("\t1.\t启动探针");
@@ -59,12 +60,12 @@ namespace MagicalPin
             WL("     " + titleStr + "     ", ConsoleColor.Yellow, ConsoleColor.DarkBlue);
         }
 
-        static void Connect(string ip, string port)
+        static void Connect(string ip, string port, string localPort)
         {
             ipp = new IPEndPoint(IPAddress.Parse(ip), int.Parse(port));//远端地址
 
             s = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);//本地套接字
-            s.Bind(new IPEndPoint(IPAddress.Parse("127.0.0.1"), 9905));
+            s.Bind(new IPEndPoint(IPAddress.Parse("127.0.0.1"), int.Parse(localPort)));
 
             t.Start();
             Pinning();
@@ -80,6 +81,8 @@ namespace MagicalPin
             string ip = Console.ReadLine();
             WL("请输入主服务器监听端口：");
             string port = Console.ReadLine();
+            WL("请输入本地发送端口：");
+            string localPort = Console.ReadLine();
 
             Console.Clear();
             WTitle("确认信息 Confirm The Information");
@@ -87,13 +90,14 @@ namespace MagicalPin
             WL();
             WL("主服务器 IP：" + ip);
             WL("主服务器监听端口：" + port);
+            WL("本地发送端口：" + localPort);
             WL();
             WL();
             WL("请确认（y/n）：");
             switch (Console.ReadLine())
             {
                 case "y":
-                    Connect(ip, port);
+                    Connect(ip, port, localPort);
                     break;
                 case "n":
                     break;
